@@ -14,6 +14,7 @@ public class RepeatedHeaderTableDrawer extends TableDrawer {
 
     @Builder.Default
     private int numberOfRowsToRepeat = 1;
+    private int firstRowToRepeat = 0;
 
     private Float headerHeight;
 
@@ -22,9 +23,9 @@ public class RepeatedHeaderTableDrawer extends TableDrawer {
         if (pageData.firstRowOnPage != 0) {
             float adaption = 0;
             for (int i = 0; i < numberOfRowsToRepeat; i++) {
-                adaption += table.getRows().get(i).getHeight();
+                adaption += table.getRows().get(firstRowToRepeat + i).getHeight();
                 Point2D.Float startPoint = new Point2D.Float(this.startX, this.startY + calculateHeightForFirstRows() - adaption);
-                drawRow(startPoint, table.getRows().get(i), i, (drawer, drawingContext) -> {
+                drawRow(startPoint, table.getRows().get(firstRowToRepeat + i), i, (drawer, drawingContext) -> {
                     drawer.drawBackground(drawingContext);
                     drawer.drawContent(drawingContext);
                     drawer.drawBorders(drawingContext);
@@ -49,7 +50,7 @@ public class RepeatedHeaderTableDrawer extends TableDrawer {
 
         float height = 0;
         for (int i = 0; i < numberOfRowsToRepeat; i++) {
-            height += table.getRows().get(i).getHeight();
+            height += table.getRows().get(firstRowToRepeat + i).getHeight();
         }
 
         // Cache and return
